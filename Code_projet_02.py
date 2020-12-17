@@ -2,7 +2,7 @@
 
 
 # import libraries
-import re
+#import re
 import csv
 import requests
 from bs4 import BeautifulSoup
@@ -33,7 +33,7 @@ def title_one(one_title):
 # function for the descrption of the book / autre solution??
 def describ(one_resum):
     """give the resum of the book"""
-    describ_01 = one_resum.find(string=re.compile("dragon"))
+    describ_01 = one_resum.findAll('p')[3]  #(string=re.compile("dragon"))
     return describ_01
 
 # function for the product information of the book
@@ -62,6 +62,7 @@ def prod_info_td(allTd):
 def prod_Category(category):
     category_01 = category.find(class_='page-header action')
     return category_01.text
+
 def imageBook(image):
     '''Get the picture of the book'''
     imageBook = image.find(class_='item active')
@@ -87,3 +88,7 @@ getBook()
 
 print(getBook())
 
+'''
+if __name__ == '__main__':
+    main()
+'''
