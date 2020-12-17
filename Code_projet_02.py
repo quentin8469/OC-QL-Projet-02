@@ -1,55 +1,85 @@
+# mettre des parametres dans les fonctions, comprend if__name etc 
+
+
+# import libraries
 import re
 import csv
 import requests
 from bs4 import BeautifulSoup
 
-url = "http://books.toscrape.com/catalogue/eragon-the-inheritance-cycle-1_153/index.html"
 
-page = requests.get(url)
-soupe = BeautifulSoup(page.text, 'html.parser')
+# Set the Url i want to scrap
 
-print('\n')#saut de ligne
+urlBook = 'http://books.toscrape.com/catalogue/eragon-the-inheritance-cycle-1_153/index.html'
+urlCategory = 'http://books.toscrape.com/catalogue/category/books/fantasy_19/index.html'
+
+'''
+# Connect to the url
+page_Book = requests.get(urlBook)
+
+# Parse HTML and save in a BeautifulSoup Object
+soupe = BeautifulSoup(page_Book.text, 'html.parser')
+'''
+
+
+# create the different functions with the parameter to scrap
 
 # function for the title of the book
-def title_one():
+def title_one(one_title):
 	"""Give the title of the book"""
-	title = soupe.find(class_='active')
-	return title
-
-print(title_one().text)
-
-print('\n')#saut de ligne
+	title = one_title.find(class_='active')
+	return title.text
 
 # function for the descrption of the book / autre solution??
-def describ():
+def describ(one_resum):
     """give the resum of the book"""
-    describ_01 = soupe.find(string=re.compile("dragon"))
+    describ_01 = one_resum.find(string=re.compile("dragon"))
     return describ_01
-
-print(describ())
-
-print('\n')#saut de ligne
 
 # function for the product information of the book
 
-def prod_info_th():
+def prod_info_th(allTh):
     """give the th"""
-    ths = soupe.findAll('tr')
+    # need tu do a list[] for all th
+    list_th = []
+    ths = allTh.findAll('tr')
     for tr in ths:
         a = tr.find('th')
-        print(a.text)
-    
-    
-def prod_info_td():
+        list_th.append(a.text)
+    return list_th 
+
+
+def prod_info_td(allTd):
     """give the td"""
-    tds = soupe.findAll('tr')
+    # need tu do a list[] for all td with append
+    list_td = []
+    tds = allTd.findAll('tr')
     for tr in tds:
         a = tr.find('td')
-        print(a.text)
+        list_td.append(a.text)
+    return list_td
+        
+def prod_Category(category):
+    category_01 = category.find(class_='page-header action')
+    return category_01.text
+
+def getBook():
+    '''all function to get a book'''
+    page_Book = requests.get(urlBook)
+    soupe = BeautifulSoup(page_Book.text, 'html.parser')
+    page_Category = requests.get(urlCategory)
+    soupeCat = BeautifulSoup(page_Category.text, 'html.parser')
+    title = title_one(soupe)
+    print('\n')
+    cat = prod_Category(soupeCat)
+    print('\n')
+    resum = describ(soupe)
+    print('\n')
+    info_produc = prod_info_th(soupe) + prod_info_td(soupe)
+   
+   
+    return title, cat, resum, info_produc
 
 
+print(getBook())
 
-print (prod_info_th())
-print('\n')#saut de ligne
-print (prod_info_td())
-print('\n')#saut de ligne
