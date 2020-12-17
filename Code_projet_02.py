@@ -62,6 +62,11 @@ def prod_info_td(allTd):
 def prod_Category(category):
     category_01 = category.find(class_='page-header action')
     return category_01.text
+def imageBook(image):
+    '''Get the picture of the book'''
+    imageBook = image.find(class_='item active')
+    return imageBook
+
 
 def getBook():
     '''all function to get a book'''
@@ -70,15 +75,14 @@ def getBook():
     page_Category = requests.get(urlCategory)
     soupeCat = BeautifulSoup(page_Category.text, 'html.parser')
     title = title_one(soupe)
-    print('\n')
     cat = prod_Category(soupeCat)
-    print('\n')
     resum = describ(soupe)
-    print('\n')
-    info_produc = prod_info_th(soupe) + prod_info_td(soupe)
-   
-   
-    return title, cat, resum, info_produc
+    info_produc = prod_info_th(soupe), prod_info_td(soupe)
+    picture = imageBook(soupe)
+    return title, cat, resum, info_produc, picture
+
+
+getBook()
 
 
 print(getBook())
