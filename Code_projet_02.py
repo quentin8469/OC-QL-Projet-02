@@ -60,15 +60,17 @@ def prod_info_td(allTd):
     return list_td
         
 def prod_Category(category):
-	'''give the category of one book'''
-    category_01 = category.find(class_='page-header action')
-    return category_01.text
+	'''give the category'''
+	category_01 = category.find(class_='page-header action')
+	return category_01.text
+
 
 def imageBook(image):
     '''Get the picture of the book'''
-    imageBook = image.find(class_='item active')
-    return imageBook
-
+    image_Book = image.find('img')
+    path_image = image_Book.get('src')
+    url_image = path_image.replace("../../","http://books.toscrape.com/")
+    return url_image
 
 def getBook():
     '''all function to get a book'''
@@ -86,7 +88,7 @@ def getBook():
 
 def writeDataBook(allData):
 	''' write the data of the book in a csv file'''
-	with open('bookinfos.csv', 'w') as csvfile:
+	with open('bookinfos.csv', 'w', newline='') as csvfile:
 		book = csv.writer(csvfile)
 		book.writerow(allData)
 		
@@ -95,8 +97,8 @@ def main():
 	allData = getBook()
 	writeDataBook(allData)
 
-print(getBook())
 
+print(getBook())
 
 if __name__ == '__main__':
     main()
