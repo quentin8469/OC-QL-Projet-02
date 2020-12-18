@@ -34,7 +34,7 @@ def title_one(one_title):
 def describ(one_resum):
     """give the resum of the book"""
     describ_01 = one_resum.findAll('p')[3]  #(string=re.compile("dragon"))
-    return describ_01
+    return describ_01.text
 
 # function for the product information of the book
 
@@ -83,12 +83,18 @@ def getBook():
     return title, cat, resum, info_produc, picture
 
 
-getBook()
+def writeDataBook(allData):
+	with open('bookinfos.csv', 'w') as csvfile:
+		book = csv.writer(csvfile)
+		book.writerow(allData)
+		
 
+def main():
+	allData = getBook()
+	writeDataBook(allData)
 
 print(getBook())
 
-'''
+
 if __name__ == '__main__':
     main()
-'''
