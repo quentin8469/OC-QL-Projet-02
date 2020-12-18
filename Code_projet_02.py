@@ -60,6 +60,7 @@ def prod_info_td(allTd):
     return list_td
         
 def prod_Category(category):
+	'''give the category of one book'''
     category_01 = category.find(class_='page-header action')
     return category_01.text
 
@@ -84,6 +85,7 @@ def getBook():
 
 
 def writeDataBook(allData):
+	''' write the data of the book in a csv file'''
 	with open('bookinfos.csv', 'w') as csvfile:
 		book = csv.writer(csvfile)
 		book.writerow(allData)
