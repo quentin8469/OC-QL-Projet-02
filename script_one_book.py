@@ -11,7 +11,7 @@ def get_Book_Title(titre):
 def description_Of_The_Book(describ):
     resum = describ.findAll('p')[3]
     return(resum.text)
-	
+    
 def infos_Produc(infos):
     my_Produc_Infos ={
     
