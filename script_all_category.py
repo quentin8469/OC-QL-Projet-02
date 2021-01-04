@@ -16,9 +16,16 @@ def all_Site_Category():
     list_Category.append(allCategory.text)
     return list_Category
 
-print(all_Site_Category())
 
-
+"""
+def writeDataBook(books):
+    ''' write the data of the book in a csv file'''
+    with open('bookinfos.csv', 'w', encoding='utf-8', newline='') as csvfile:
+        fieldnames = ['Urls', 'Categorys', 'Titles', 'Resum', 'Producs_Infos', 'Images']
+        book = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
+        book.writeheader()
+        book.writerow(books)
+"""
 def main():
     Categories = all_Site_Category()
     writeDataBook(Categories )
@@ -26,6 +33,7 @@ def main():
 
 
 
-
 if __name__ == '__main__':
     main()
+
+print(all_Site_Category())
