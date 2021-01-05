@@ -73,7 +73,7 @@ def get_all_data_book():
     book_data = {}
     book_data['Urls'] = product_page_url(soupe)
     book_data['Categorys'] = category(soupe)
-    book_data['Titles'] = get_Book_title(soupe)
+    book_data['Titles'] = get_book_title(soupe)
     book_data['Resum'] = description_of_the_book(soupe)
     book_data['Producs_Infos'] = infos_produc(soupe)
     book_data['Images'] = image_url(soupe)
