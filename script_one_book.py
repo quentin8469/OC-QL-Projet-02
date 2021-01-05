@@ -6,36 +6,36 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def get_Book_Title(titre):
+def get_book_title(titre):
     """get the title of one book"""
 
     title = titre.find('h1')
     return title.text
 
 
-def description_Of_The_Book(describ):
+def description_of_the_book(describ):
     """get the description of one book"""
 
     resum = describ.findAll('p')[3]
     return resum.text
 
 
-def infos_Produc(infos):
+def infos_produc(infos):
     """get all the produc information of the book in a dictionnairy"""
 
-    my_Produc_Infos = {}
+    my_produc_infos = {}
 
-    my_Produc_Infos['UPC: '] = infos.findAll('td')[0].text
-    my_Produc_Infos['Product Type : '] = infos.findAll('td')[1].text
-    my_Produc_Infos['Price (excl. tax) : '] = infos.findAll('td'
+    my_produc_infos['UPC: '] = infos.findAll('td')[0].text
+    my_produc_infos['Product Type : '] = infos.findAll('td')[1].text
+    my_produc_infos['Price (excl. tax) : '] = infos.findAll('td'
             )[2].text
-    my_Produc_Infos['Price (incl. tax) : '] = infos.findAll('td'
+    my_produc_infos['Price (incl. tax) : '] = infos.findAll('td'
             )[3].text
-    my_Produc_Infos['Tax : '] = infos.findAll('td')[4].text
-    my_Produc_Infos['Availability : '] = infos.findAll('td')[5].text
-    my_Produc_Infos['Number of reviews : '] = infos.findAll('td'
+    my_produc_infos['Tax : '] = infos.findAll('td')[4].text
+    my_produc_infos['Availability : '] = infos.findAll('td')[5].text
+    my_produc_infos['Number of reviews : '] = infos.findAll('td'
             )[6].text
-    return my_Produc_Infos
+    return my_produc_infos
 
 
 def category(cat):
@@ -45,7 +45,7 @@ def category(cat):
     return category.text
 
 
-def product_Page_Url(url):
+def product_page_url(url):
     """get the url of one book"""
 
     urls = url.findAll('a')[3]
@@ -54,33 +54,33 @@ def product_Page_Url(url):
     return urlsss
 
 
-def image_Url(image):
+def image_url(image):
     """get the picture of the book"""
 
-    image_Book = image.find('img')
-    path_image = image_Book.get('src')
+    image_book = image.find('img')
+    path_image = image_book.get('src')
     url_image = path_image.replace('../../',
                                    'http://books.toscrape.com/')
     return url_image
 
 
-def get_All_Data_Book():
+def get_all_data_book():
     """ get all data of one book and take all in a dictionnairie for writing in a csv file"""
 
     url = input('Enter the url of the book, category or the site:  ')
     html = requests.get(url)
     soupe = BeautifulSoup(html.text, 'html.parser')
-    Book_Data = {}
-    Book_Data['Urls'] = product_Page_Url(soupe)
-    Book_Data['Categorys'] = category(soupe)
-    Book_Data['Titles'] = get_Book_Title(soupe)
-    Book_Data['Resum'] = description_Of_The_Book(soupe)
-    Book_Data['Producs_Infos'] = infos_Produc(soupe)
-    Book_Data['Images'] = image_Url(soupe)
-    return Book_Data
+    book_data = {}
+    book_data['Urls'] = product_page_url(soupe)
+    book_data['Categorys'] = category(soupe)
+    book_data['Titles'] = get_Book_title(soupe)
+    book_data['Resum'] = description_of_the_book(soupe)
+    book_data['Producs_Infos'] = infos_produc(soupe)
+    book_data['Images'] = image_url(soupe)
+    return book_data
 
 
-def writeDataBook(books):
+def write_data_book(books):
     ''' write the data of the book in a csv file'''
 
     with open('bookinfos.csv', 'w', encoding='utf-8', newline='') as \
@@ -100,11 +100,10 @@ def writeDataBook(books):
 
 
 def main():
-    books = get_All_Data_Book()
-    writeDataBook(books)
+    books = get_all_data_book()
+    write_data_book(books)
     return books
 
 
 if __name__ == '__main__':
     main()
-print (main())
