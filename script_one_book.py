@@ -42,7 +42,7 @@ def category(cat):
     """get the category of one book"""
 
     category = cat.findAll('li')[2]
-    return category.text
+    return category.text.strip()
 
 
 def product_page_url(url):
