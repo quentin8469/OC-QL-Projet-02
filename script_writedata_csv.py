@@ -1,26 +1,24 @@
-
 import csv
 
 
-"""
+def write_data_book(books):
+    ''' write the data of the book in a csv file'''
 
-''' write the data of the book in a csv file'''
-headers = [['titre'], ['category'], ['resum'], ['produc'], ['image']]
-with open('bookinfosss.csv', 'w', encoding='utf-8', newline= '') as csvfile:
-    book = csv.writer(csvfile, delimiter=',')
-    for ligne in headers:
-        book.writerow(ligne)
-"""
+    with open('bookinfos.csv', 'w', encoding='utf-8', newline='') as \
+        csvfile:
+        fieldnames = [
+            'Urls',
+            'Categorys',
+            'Titles',
+            'Resum',
+            'Producs_Infos',
+            'Images',
+            ]
+        book = csv.DictWriter(csvfile, fieldnames=fieldnames,
+                              delimiter=';')
+        book.writeheader()
+        book.writerow(books)
 
-dico = {}
-dico['titre'] = '0'
-dico['image'] = 'gghj'
-dico['truc'] = 'azerty'
-    
-with open('dico.csv', 'w', encoding='utf-8', newline='') as csvfile:
-    fieldnames = ['titre', 'image', 'truc']
-	
-    writer = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
-    writer.writeheader()
-    writer.writerow(dico)
 
+if __name__=='__main__':
+    main()
