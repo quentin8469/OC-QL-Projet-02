@@ -7,33 +7,28 @@ urlBook = 'https://books.toscrape.com/'
 page_Book = requests.get(urlBook)
 soupe = BeautifulSoup(page_Book.text, 'html.parser')
 
-def all_Site_Category():
+def all_site_category():
     urlBook = 'https://books.toscrape.com/'
     page_Book = requests.get(urlBook)
     soupe = BeautifulSoup(page_Book.text, 'html.parser')
-    list_Category = []
-    allCategory = soupe.find(class_='nav nav-list')
-    list_Category.append(allCategory.text)
-    return list_Category
+    list_Categorys = []
+    #allCategory = soupe.findAll('ul', {"class": "nav-list"})
+    allCategory = soupe.find('ul', {'class': 'nav-list'})
+    categorys = allCategory.findAll('li')
+    for category in categorys:
+        list_Categorys.append(category.find('a').text.strip())
+    return list_Categorys
 
 
-"""
-def writeDataBook(books):
-    ''' write the data of the book in a csv file'''
-    with open('bookinfos.csv', 'w', encoding='utf-8', newline='') as csvfile:
-        fieldnames = ['Urls', 'Categorys', 'Titles', 'Resum', 'Producs_Infos', 'Images']
-        book = csv.DictWriter(csvfile, fieldnames=fieldnames, delimiter=';')
-        book.writeheader()
-        book.writerow(books)
-"""
+
 def main():
-    Categories = all_Site_Category()
-    writeDataBook(Categories )
-    return Categories 
+    categories = all_site_category()
+    #writeDataBook(Categories )
+    return categories 
 
 
 
 if __name__ == '__main__':
     main()
 
-print(all_Site_Category())
+print(all_site_category())
