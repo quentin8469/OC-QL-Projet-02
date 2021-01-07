@@ -57,9 +57,8 @@ def product_page_url(url):
 def image_url(image):
     """get the picture of the book"""
 
-    image_book = image.find('img')
-    path_image = image_book.get('src')
-    url_image = path_image.replace('../../',
+    image_book = image.find('img').get('src')
+    url_image = image_book.replace('../../',
                                    'http://books.toscrape.com/')
     return url_image
 
