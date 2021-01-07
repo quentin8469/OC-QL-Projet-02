@@ -80,7 +80,7 @@ def get_all_data_book():
 
 
 def main():
-    """à completer"""
+    """general function of the script"""
     
     books = get_all_data_book()
     
