@@ -3,21 +3,17 @@ import csv
 import requests
 from bs4 import BeautifulSoup
 
-urlBook = 'https://books.toscrape.com/'
-page_Book = requests.get(urlBook)
-soupe = BeautifulSoup(page_Book.text, 'html.parser')
 
 def all_site_category():
-    urlBook = 'https://books.toscrape.com/'
-    page_Book = requests.get(urlBook)
-    soupe = BeautifulSoup(page_Book.text, 'html.parser')
-    list_Categorys = []
-    #allCategory = soupe.findAll('ul', {"class": "nav-list"})
-    allCategory = soupe.find('ul', {'class': 'nav-list'})
-    categorys = allCategory.findAll('li')
+    urlbook = 'https://books.toscrape.com/'
+    page_book = requests.get(urlbook)
+    soupe = BeautifulSoup(page_book.text, 'html.parser')
+    list_categorys = []
+    allcategory = soupe.find('ul', {'class': 'nav-list'})
+    categorys = allcategory.findAll('li')
     for category in categorys:
-        list_Categorys.append(category.find('a').text.strip())
-    return list_Categorys
+        list_categorys.append(category.find('a').text.strip())
+    return list_categorys
 
 
 
