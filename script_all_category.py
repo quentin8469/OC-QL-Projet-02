@@ -1,6 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
 import csv
 import requests
 from bs4 import BeautifulSoup
@@ -26,7 +25,17 @@ def url_categorys(soupe):
         url_cat_list.append('http://books.toscrape.com/' + link.get('href'))
     return url_cat_list
     
-    
+  
+def write_category_csv(name, urls):
+    """write the categories url and name in a csv file"""
+
+    with open('catsinfos.csv', 'w', encoding='utf-8', newline='') as \
+        csvfile:
+        catwriter = csv.writer(csvfile,delimiter=';')
+        catwriter.writerow(name)
+        catwriter.writerow(urls)
+
+        
 def main():
     """general function of the script"""
     
@@ -35,7 +44,7 @@ def main():
     soupe = BeautifulSoup(page_book.text, 'html.parser')
     categories_name = all_site_category(soupe)
     categories_urls = url_categorys(soupe)
-    #writeDataBook(Categories )
+    write_category_csv(categories_name, categories_urls)
     return categories_name, categories_urls
 
 
