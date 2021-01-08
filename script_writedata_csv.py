@@ -19,6 +19,15 @@ def write_data_book(books):
         book.writeheader()
         book.writerow(books)
 
+def write_category_csv(name, urls):
+    """write the categories url and name in a csv file"""
 
+    with open('catsinfos.csv', 'w', encoding='utf-8', newline='') as \
+        csvfile:
+        catwriter = csv.writer(csvfile,delimiter=';')
+        catwriter.writerow(name)
+        catwriter.writerow(urls)
+        
+        
 if __name__=='__main__':
     main()
