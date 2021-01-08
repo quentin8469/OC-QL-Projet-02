@@ -35,7 +35,7 @@ def write_category_csv(name, urls):
     with open('catsinfos.csv', 'w', encoding='utf-8', newline='') as \
         csvfile:
         catwriter = csv.writer(csvfile, delimiter=';')
-        #catwriter.writeheader()
+        
         catwriter.writerow(name)
         catwriter.writerow(urls)
 
