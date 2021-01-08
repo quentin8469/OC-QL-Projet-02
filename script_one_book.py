@@ -1,7 +1,5 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import sys
-import csv
 import requests
 from bs4 import BeautifulSoup
 
@@ -66,7 +64,7 @@ def image_url(image):
 def get_all_data_book():
     """ get all data of one book and take all in a dictionnairie for writing in a csv file"""
 
-    url = input('Enter the url of the book, category or the site:  ')
+    url = input('Enter the url of the book:  ')
     html = requests.get(url)
     soupe = BeautifulSoup(html.text, 'html.parser')
     book_data = {}
