@@ -20,12 +20,13 @@ def all_site_category(soupe):
 def url_categorys(soupe):
     """ get the categories url"""
 
-    url_cat_list = []
-    links = soupe.findAll('a')
-    for link in links:
-        url_cat_list.append('http://books.toscrape.com/'
+    urls_cats_list = []
+    urls_links = soupe.find('ul', {'class': 'nav-list'})
+    urls_link = urls_links.findAll('a')
+    for link in urls_link:
+        urls_cats_list.append('http://books.toscrape.com/'
                             + link.get('href'))
-    return url_cat_list
+    return urls_cats_list
 
 
 def write_category_csv(name, urls):
@@ -53,6 +54,6 @@ def main():
 if __name__ == '__main__':
     main()
 
-print main()
+print (main())
 
             
