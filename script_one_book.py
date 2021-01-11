@@ -87,7 +87,7 @@ def main(url_book_list):
     books = get_all_data_book(url)
     for book in books:
         books_list.append(book)
-    
+    tttt
     #swc.write_books_data(books_list)
     return print(books_list)
 
