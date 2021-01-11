@@ -29,8 +29,9 @@ def main():
     page_book = requests.get(url_category)
     soupe = BeautifulSoup(page_book.content, 'html.parser')
     books_list_url = url_categorys(soupe)
-   
-    
+    for book in books_list_url:
+        sob.main(book)
+        
     #book = sob.main(books_list_url)
    
     return books_list_url
@@ -39,4 +40,4 @@ def main():
 if __name__ == '__main__':
     main()
 
-print(main())
+#print(main())
