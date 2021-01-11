@@ -1,8 +1,10 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
+
 import requests
 from bs4 import BeautifulSoup
 import script_writedata_csv as swc
+
 
 def get_book_title(titre):
     """get the title of one book"""
@@ -25,14 +27,11 @@ def infos_produc(infos):
 
     my_produc_infos['UPC '] = infos.findAll('td')[0].text
     my_produc_infos['Product Type '] = infos.findAll('td')[1].text
-    my_produc_infos['Price (excl. tax) '] = infos.findAll('td'
-            )[2].text
-    my_produc_infos['Price (incl. tax) '] = infos.findAll('td'
-            )[3].text
+    my_produc_infos['Price (excl. tax) '] = infos.findAll('td')[2].text
+    my_produc_infos['Price (incl. tax) '] = infos.findAll('td')[3].text
     my_produc_infos['Tax '] = infos.findAll('td')[4].text
     my_produc_infos['Availability '] = infos.findAll('td')[5].text
-    my_produc_infos['Number of reviews '] = infos.findAll('td'
-            )[6].text
+    my_produc_infos['Number of reviews '] = infos.findAll('td')[6].text
     return my_produc_infos
 
 
@@ -45,11 +44,12 @@ def category(cat):
 
 def product_page_url(url):
     """get the url of one book"""
-    
-    #modifier nom variable
-    #urls = url.findAll('a')[3]
-    #urlss = urls.get('href')
-    #urlsss = 'http://books.toscrape.com' + urlss
+
+    # modifier nom variable
+    # urls = url.findAll('a')[3]
+    # urlss = urls.get('href')
+    # urlsss = 'http://books.toscrape.com' + urlss
+
     book_url = url
     return book_url
 
@@ -80,18 +80,20 @@ def get_all_data_book(url):
 
 def main(url_book_list):
     """general function of the script"""
-    
-    books_list =[]
-    #url = input('Enter the url of the book:  ')
+
+    books_list = []
+
+    # url = input('Enter the url of the book:  ')
+
     url = url_book_list
     books = get_all_data_book(url)
     for book in books:
         books_list.append(book)
-    tttt
-    #swc.write_books_data(books_list)
-    return print(books_list)
 
+    # swc.write_books_data(books_list)
+
+    return books_list
 
 
 if __name__ == '__main__':
-    main()
+    main()      
