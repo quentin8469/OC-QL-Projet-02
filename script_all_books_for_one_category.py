@@ -29,8 +29,6 @@ def main():
     page_book = requests.get(url_category)
     soupe = BeautifulSoup(page_book.content, 'html.parser')
     books_list_url = url_categorys(soupe)
-    for books in books_list_url:
-        book = sob.main(books)
     
     #book = sob.main(books_list_url)
    
