@@ -5,9 +5,9 @@ import csv
 import requests
 from bs4 import BeautifulSoup
 
-
+'''
 def all_site_category(soupe):
-    """get the categories name"""
+    """get only the categories name"""
 
     list_categorys = []
     allcategory = soupe.find('ul', {'class': 'nav-list'})
@@ -16,9 +16,10 @@ def all_site_category(soupe):
         list_categorys.append(category.find('a').text.strip())
     return list_categorys
 
+'''
 
 def url_categorys(soupe):
-    """ get the categories url"""
+    """ get the url of the categories"""
 
     urls_cats_list = []
     urls_links = soupe.find('ul', {'class': 'nav-list'})
@@ -28,7 +29,7 @@ def url_categorys(soupe):
                             + link.get('href'))
     return urls_cats_list
 
-
+'''
 def write_category_csv(name, urls):
     """write the categories url and name in a csv file"""
 
@@ -38,7 +39,7 @@ def write_category_csv(name, urls):
         
         catwriter.writerow(name)
         catwriter.writerow(urls)
-
+'''
 
 def main():
     """general function of the script"""
