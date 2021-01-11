@@ -83,16 +83,15 @@ def main(url_book_list):
 
     books_list = []
 
-    # url = input('Enter the url of the book:  ')
+    #url = input('Enter the url of the book:  ')
 
     url = url_book_list
     books = get_all_data_book(url)
-    for book in books:
-        books_list.append(book)
+    books_list.append(books)
 
-    # swc.write_books_data(books_list)
+    #swc.write_books_data(books_list)
 
-    return books_list
+    return print(books_list)
 
 
 if __name__ == '__main__':
