@@ -20,5 +20,3 @@ def write_books_data(books_list):
 
 if __name__ == '__main__':
     main()
-
-			
