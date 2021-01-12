@@ -21,23 +21,24 @@ def url_categorys(soupe):
     return urls_books_list
 
 
-def main():
+def get_all_url_in_category():
     """general function of the script"""
 
+    books_list =[]
     url_category = \
-        'https://books.toscrape.com/catalogue/category/books/travel_2/index.html'
+        'https://books.toscrape.com/catalogue/category/books/mystery_3/page-1.html'
     page_book = requests.get(url_category)
     soupe = BeautifulSoup(page_book.content, 'html.parser')
     books_list_url = url_categorys(soupe)
     for book in books_list_url:
-        sob.main(book)
-        
-    #book = sob.main(books_list_url)
+        infos = sob.get_all_book_info(book)
+        books_list.append(infos)
+    swc.write_books_data(books_list)
    
-    return books_list_url
+    return books_list
 
 
 if __name__ == '__main__':
-    main()
+    get_all_url_in_category()
 
-#print(main())
+print(get_all_url_in_category())
