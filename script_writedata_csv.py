@@ -14,8 +14,7 @@ def write_books_data(books_list):
                                fieldnames=books_list[0].keys(),
                                delimiter=';')
         books.writeheader()
-        for book in books_list:
-            books.writerows(books_list)
+        books.writerows(books_list)
 
 
 if __name__ == '__main__':
