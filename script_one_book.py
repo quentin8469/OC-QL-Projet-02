@@ -3,7 +3,6 @@
 
 import requests
 from bs4 import BeautifulSoup
-import script_writedata_csv as swc
 
 
 def get_book_title(titre):
@@ -24,7 +23,6 @@ def infos_produc(infos):
     """get all the produc information of the book in a dictionnairy"""
 
     my_produc_infos = {}
-
     my_produc_infos['UPC '] = infos.findAll('td')[0].text
     my_produc_infos['Product Type '] = infos.findAll('td')[1].text
     my_produc_infos['Price (excl. tax) '] = infos.findAll('td')[2].text
@@ -45,11 +43,6 @@ def category(cat):
 def product_page_url(url):
     """get the url of one book"""
 
-    # modifier nom variable
-    # urls = url.findAll('a')[3]
-    # urlss = urls.get('href')
-    # urlsss = 'http://books.toscrape.com' + urlss
-
     book_url = url
     return book_url
 
@@ -69,7 +62,7 @@ def get_all_data_book(url):
     html = requests.get(url)
     soupe = BeautifulSoup(html.content, 'html.parser')
     book_data = {}
-    book_data['Urls'] = product_page_url(url)
+    book_data['Books_Url'] = product_page_url(url)
     book_data['Categorys'] = category(soupe)
     book_data['Titles'] = get_book_title(soupe)
     book_data['Resum'] = description_of_the_book(soupe)
@@ -78,21 +71,14 @@ def get_all_data_book(url):
     return book_data
 
 
-def main(url_book_list):
+def get_all_book_info(url_book_list):
     """general function of the script"""
-
-    books_list = []
-
+    
     #url = input('Enter the url of the book:  ')
-
-    url = url_book_list
-    books = get_all_data_book(url)
-    books_list.append(books)
-
-    #swc.write_books_data(books_list)
-
-    return print(books_list)
+    urls = url_book_list
+    books = get_all_data_book(urls)
+    return books
 
 
 if __name__ == '__main__':
-    main()      
+    get_all_book_info()
