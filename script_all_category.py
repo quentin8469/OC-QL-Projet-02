@@ -4,7 +4,8 @@
 import csv
 import requests
 from bs4 import BeautifulSoup
-
+import script_all_books_for_one_category as sabfoc
+import script_writedata_csv as swc
 
 def url_categorys(soupe):
     """ get the url of the categories"""
@@ -15,18 +16,36 @@ def url_categorys(soupe):
     for link in urls_link:
         urls_cats_list.append('http://books.toscrape.com/'
                               + link.get('href'))
-    return urls_cats_list
+    return urls_cats_list[1:51]
 
+def urls_book_in_category():
+    """ get a list of urls book in one category"""
+    
+    
 
 def main():
     """general function of the script"""
 
-    urlbook = 'https://books.toscrape.com/'
-    page_book = requests.get(urlbook)
-    soupe = BeautifulSoup(page_book.text, 'html.parser')
+    url_site = 'https://books.toscrape.com/'
+    page_book = requests.get(url_site)
+    soupe = BeautifulSoup(page_book.content, 'html.parser')
+    
     categories_urls = url_categorys(soupe)
-
-    return categories_urls
+    #book_in_cat = urls_book_in_category(
+    
+    urls_list =[]
+    #all_books = []
+    #books = []
+    for urls in categories_urls:
+        category = sabfoc.get_all_url_in_category(urls)
+        urls_list.append(category)
+    #for url in urls_list:
+        #all_books.append(url)
+    #for book in all_books:
+        #books.append(book)
+    #swc.write_books_data(all_books)
+    
+    return print(urls_list)
 
 
 if __name__ == '__main__':
