@@ -12,12 +12,12 @@ def main():
 
     scrap_all_cat = sac.main()
     scrap_books_cat = sabfoc.main()
-    scrap_book = sob.main()
+    #scrap_book = sob.main()
     # swc.write_data_book(scrap_book)
     #swc.write_books_data(scrap_book)
     # swc.write_category_csv(scrap_category)
 
-    return  print(srap_book)
+    return  print(scrap_all_cat), print(scrap_books_cat)
 
 if __name__ == '__main__':
     main()
