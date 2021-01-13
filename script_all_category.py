@@ -38,7 +38,7 @@ def main():
     for urls in categories_urls:
         category = sabfoc.get_all_url_in_category(urls)
         urls_list.append(category)
-    #swc.write_books_data(urls_list)
+    swc.write_books_data(urls_list)
     
     return urls_list
 
