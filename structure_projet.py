@@ -34,7 +34,6 @@ def recuperer_toutes_les_pages_des_categories():
     return liste_des_pages_de_chaques_categories
 
 
-
 def recuperer_toutes_les_urls_des_categories(url_du_site):
     """ fonction qui permettra d'extraire les url de toute les categories du site """
     
@@ -57,3 +56,7 @@ def main():
     for informations_des_livres in tous_les_livres_de chaque_categories:
         for informations_du_livre in informations_des_livres:
             liste_de_tout_les_livres_de_chaque_categories.append(informations_du_livre)
+			
+
+if __name__ == '__main__':
+    main()
