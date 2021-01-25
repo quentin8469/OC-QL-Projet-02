@@ -12,15 +12,15 @@ def get_book_title(titre):
     return title.text
 
 
-def description_of_the_book(describ):
+def get_description_of_the_book(describ):
     """get the description of one book"""
 
     resum = describ.findAll('p')[3]
     return resum.text
 
 
-def infos_produc(infos):
-    """get all the produc information of the book in a dictionnairy"""
+def get_infos_produc_of_the_book(infos):
+    """get all the produc informations of the book in a dictionnairy"""
 
     my_produc_infos = {}
     my_produc_infos['UPC '] = infos.findAll('td')[0].text
@@ -33,21 +33,21 @@ def infos_produc(infos):
     return my_produc_infos
 
 
-def category(cat):
+def get_book_category(cat):
     """get the category of one book"""
 
     category = cat.findAll('li')[2]
     return category.text.strip()
 
 
-def product_page_url(url):
+def get_product_page_url_of_a_book(url):
     """get the url of one book"""
 
     book_url = url
     return book_url
 
 
-def image_url(image):
+def get_book_image_url(image):
     """get the picture of the book"""
 
     image_book = image.find('img').get('src')
@@ -62,17 +62,17 @@ def get_all_data_book(url):
     html = requests.get(url)
     soupe = BeautifulSoup(html.content, 'html.parser')
     book_data = {}
-    book_data['Books_Url'] = product_page_url(url)
-    book_data['Categorys'] = category(soupe)
+    book_data['Books_Url'] = get_product_page_url_of_a_book(url)
+    book_data['Categorys'] = get_book_category(soupe)
     book_data['Titles'] = get_book_title(soupe)
-    book_data['Resum'] = description_of_the_book(soupe)
-    book_data['Producs_Infos'] = infos_produc(soupe)
-    book_data['Images'] = image_url(soupe)
+    book_data['Resum'] = get_description_of_the_book(soupe)
+    book_data['Producs_Infos'] = get_infos_produc_of_the_book(soupe)
+    book_data['Images'] = get_book_image_url(soupe)
     return book_data
 
 
 def get_all_book_info(url_book_list):
-    """general function of the script"""
+    """general function of the script, return all the book inforamtions."""
     
     #url = input('Enter the url of the book:  ')
     urls = url_book_list
