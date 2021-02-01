@@ -45,7 +45,7 @@ def get_tax(soupe):
 
 def get_number_available(soupe):
     """ doc """
-    number_available = soupe.findAll('td')[5].text
+    number_available = soupe.find_all('td')[5].text
     return number_available
 
 
@@ -57,7 +57,7 @@ def get_product_description(soupe):
 
 def get_category(soupe):
     """ doc """
-    category = soupe.findAll('li')[2].text.strip()
+    category = soupe.find_all('li')[2].text.strip()
     return category
 
 
@@ -97,6 +97,7 @@ def get_data_in_dictionnarie():
     book_data['Image_url'] = get_image_url(soupe)
     
     return book_data
+
 
 
 
