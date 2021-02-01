@@ -1,54 +1,75 @@
+import requests
+from bs4 import BeautifulSoup
 
-
-def get_product_page_url():
+def get_product_page_url(url):
     """ doc """
     return
 
 
-def get_universal_ product_code():
+def get_universal_product_code(soupe):
     """ doc """
     return
 
 
-def get_title():
+def get_title(soupe):
     """ doc """
     return
 
 
-def get_price_including_tax():
+def get_price_including_tax(soupe):
     """ doc """
     return
 
 
-def get_price_excluding_tax():
+def get_price_excluding_tax(soupe):
     """ doc """
     return
 
 
-def get_number_available():
+def get_number_available(soupe):
     """ doc """
     return
 
 
-def get_product_description():
+def get_product_description(soupe):
     """ doc """
     return
 
 
-def get_category():
+def get_category(soupe):
     """ doc """
     return
 
 
-def get_review_rating():
+def get_review_rating(soupe):
     """ doc """
     return
 
 
-def get_image_url():
+def get_image_url(soupe):
     """ doc """
     return
 
+def get_data_in_dictionnarie():
+    """ doc """
+    url = 'https://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html'
+    html = requests.get(url)
+    soupe = BeautifulSoup(html.content, 'html.parser')
+    
+    book_data = {}
+    
+    book_data['Book_Url'] = get_product_page_url(url)
+    book_data['Category'] = get_category(soupe)
+    book_data['Titles'] = get_title(soupe)
+    book_data['Description'] = get_product_description(soupe)
+    book_data['UPC'] = get_universal_product_code(soupe)
+    book_data['Price_including_tax'] = get_price_including_tax(soupe)
+    book_data['Price_excluding_tax'] = get_price_excluding_tax(soupe)
+    book_data['Number_available'] = get_number_available(soupe)
+    book_data['Review_rating'] = get_review_rating(soupe)
+    book_data['Image_url'] = get_image_url(soupe)
+    
+    return book_data
 
 
 def recuperer_les_informations_pour_un_livre(url_d_un_livre):
