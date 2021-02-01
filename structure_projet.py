@@ -1,10 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 
-def get_product_page_url(url):
+def get_product_page_url(url_du_livre):
     """ recuper l'url de la page du livre """
     
-    book_url = url
+    book_url = url_du_livre
     
     return book_url
 
@@ -78,8 +78,8 @@ def get_image_url(soupe):
 
 def get_data_in_dictionnarie():
     """ doc """
-    url = 'https://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html'
-    html = requests.get(url)
+    url_du_livre = 'https://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html'
+    html = requests.get(url_du_livre)
     soupe = BeautifulSoup(html.content, 'html.parser')
     
     book_data = {}
@@ -97,6 +97,8 @@ def get_data_in_dictionnarie():
     book_data['Image_url'] = get_image_url(soupe)
     
     return book_data
+
+
 
 
 
