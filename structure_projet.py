@@ -2,53 +2,79 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_product_page_url(url):
-    """ doc """
-    return
+    """ recuper l'url de la page du livre """
+    
+    book_url = url
+    
+    return book_url
 
 
 def get_universal_product_code(soupe):
     """ doc """
-    return
+    upc = soupe.find_all('td')[0].text
+    
+    return upc
 
 
 def get_title(soupe):
     """ doc """
-    return
+    
+    title = soupe.find('h1').text
+    
+    return title
 
 
 def get_price_including_tax(soupe):
     """ doc """
-    return
+    
+    price_including_tax = soupe.find_all('td')[3].text
+    return price_including_tax
 
 
 def get_price_excluding_tax(soupe):
     """ doc """
-    return
+    price_excluding_tax = soupe.find_all('td')[2].text
+    return price_excluding_tax
+
+
+def get_tax(soupe):
+    """ doc """
+    tax = soupe.find_all('td')[4].text
+    return tax
 
 
 def get_number_available(soupe):
     """ doc """
-    return
+    number_available = soupe.findAll('td')[5].text
+    return number_available
 
 
 def get_product_description(soupe):
     """ doc """
-    return
+    product_description = soupe.find_all('p')[3].text
+    return product_description
 
 
 def get_category(soupe):
     """ doc """
-    return
+    category = soupe.findAll('li')[2].text.strip()
+    return category
 
 
 def get_review_rating(soupe):
     """ doc """
-    return
+    review_rating = soupe.find_all('td')[6].text
+    
+    return review_rating
 
 
 def get_image_url(soupe):
     """ doc """
-    return
+    
+    image_book = soupe.find('img').get('src')
+    url_image = image_book.replace('../../',
+                                   'http://books.toscrape.com/')
+    return url_image
 
 def get_data_in_dictionnarie():
     """ doc """
@@ -65,11 +91,13 @@ def get_data_in_dictionnarie():
     book_data['UPC'] = get_universal_product_code(soupe)
     book_data['Price_including_tax'] = get_price_including_tax(soupe)
     book_data['Price_excluding_tax'] = get_price_excluding_tax(soupe)
+    book_data['Tax '] = get_tax(soupe)
     book_data['Number_available'] = get_number_available(soupe)
     book_data['Review_rating'] = get_review_rating(soupe)
     book_data['Image_url'] = get_image_url(soupe)
     
     return book_data
+
 
 
 def recuperer_les_informations_pour_un_livre(url_d_un_livre):
