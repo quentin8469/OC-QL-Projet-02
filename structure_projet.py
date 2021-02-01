@@ -1,5 +1,56 @@
 
 
+def get_product_page_url():
+    """ doc """
+    return
+
+
+def get_universal_ product_code():
+    """ doc """
+    return
+
+
+def get_title():
+    """ doc """
+    return
+
+
+def get_price_including_tax():
+    """ doc """
+    return
+
+
+def get_price_excluding_tax():
+    """ doc """
+    return
+
+
+def get_number_available():
+    """ doc """
+    return
+
+
+def get_product_description():
+    """ doc """
+    return
+
+
+def get_category():
+    """ doc """
+    return
+
+
+def get_review_rating():
+    """ doc """
+    return
+
+
+def get_image_url():
+    """ doc """
+    return
+
+
+
 def recuperer_les_informations_pour_un_livre(url_d_un_livre):
     """ fonction qui stockera les informations d'un livre dans un dictionnaire
     besoin de l'url d'un livre """
