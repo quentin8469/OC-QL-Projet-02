@@ -100,9 +100,6 @@ def get_data_in_dictionnarie():
 
 
 
-
-
-
 def recuperer_les_informations_pour_un_livre(url_d_un_livre):
     """ fonction qui stockera les informations d'un livre dans un dictionnaire
     besoin de l'url d'un livre """
@@ -112,6 +109,73 @@ def recuperer_les_informations_pour_un_livre(url_d_un_livre):
                                         "categorie" : "action"}
     print('extraction des données du livre_dans_un_dictionnaire')
     return dictionnaire_des_information_du_livre
+
+   
+
+def verifie_si_plusieurs_page(url_actuelle):
+    """ doc """
+    
+    html = requests.get(url_actuelle)
+    soupe = BeautifulSoup(html.content, 'html.parser')
+    check_url = soupe.find('li', {'class': 'next'})
+    if check_url != None:
+        check_url = soupe.find('li', {'class': 'next'}).select('a')
+        href = check_url[0]['href']
+        return href
+    return None
+
+
+def get_all_page(url_une_categorie):
+    """ doc """
+
+    liste_de_toute_les_pages = []
+    liste_de_toute_les_pages.append(url_une_categorie)
+    check_href = verifie_si_plusieurs_page(url_une_categorie)
+    #print(check_href)
+    if check_href != None:
+        url_de_base = url_une_categorie.rsplit('/',1)
+        #print(url_de_base)
+        page_url = url_de_base[0] + str("/" + check_href)
+        #print('next page:' + page_url)
+        autre_page = get_all_page(page_url)
+        #liste_de_toute_les_pages.append(autre_page)
+        for test in autre_page:
+            liste_de_toute_les_pages.append(test)
+            
+    return liste_de_toute_les_pages
+
+
+def url_categorys(url):# def url_page():
+    """ get the books urls in one category"""
+    urls_books_list = []
+    page_book = requests.get(url)
+    soupe = BeautifulSoup(page_book.content, 'html.parser')
+    books = soupe.select('.product_pod')
+    for book in books:
+        titles = book.select('a')[1]['href']
+        title = titles.replace('../../../',
+                               'http://books.toscrape.com/catalogue/')
+        urls_books_list.append(title)      
+        
+    return urls_books_list
+
+
+def main():
+    
+    liste_urls_page = []
+    liste_des_livres = []
+    #url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/travel_2/index.html'
+    #url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/mystery_3/index.html'
+    url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
+    page_des_categories = get_all_page(url_une_categorie)
+    for url in page_des_categories:
+        urls_books = url_categorys(url)
+        for urls in urls_books:
+            liste_des_livres.append(urls)
+    
+    return liste_des_livres
+
+
 
 
 def recuperer_tout_les_livres_pour_une_categories(liste_des_urls_de_tous_les_livres_de_la_categorie):
