@@ -76,40 +76,28 @@ def get_image_url(soupe):
                                    'http://books.toscrape.com/')
     return url_image
 
-def get_data_in_dictionnarie():
+def get_data_in_dictionnarie(url_livre):
     """ doc """
-    url_du_livre = 'https://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html'
+    #url_du_livre = 'https://books.toscrape.com/catalogue/its-only-the-himalayas_981/index.html'
+    url_du_livre = url_livre
     html = requests.get(url_du_livre)
     soupe = BeautifulSoup(html.content, 'html.parser')
     
     book_data = {}
     
-    book_data['Book_Url'] = get_product_page_url(url)
-    book_data['Category'] = get_category(soupe)
+    #book_data['Book_Url'] = get_product_page_url(url_du_livre)
+    #book_data['Category'] = get_category(soupe)
     book_data['Titles'] = get_title(soupe)
-    book_data['Description'] = get_product_description(soupe)
-    book_data['UPC'] = get_universal_product_code(soupe)
-    book_data['Price_including_tax'] = get_price_including_tax(soupe)
-    book_data['Price_excluding_tax'] = get_price_excluding_tax(soupe)
-    book_data['Tax '] = get_tax(soupe)
-    book_data['Number_available'] = get_number_available(soupe)
-    book_data['Review_rating'] = get_review_rating(soupe)
-    book_data['Image_url'] = get_image_url(soupe)
+    #book_data['Description'] = get_product_description(soupe)
+    #book_data['UPC'] = get_universal_product_code(soupe)
+    #book_data['Price_including_tax'] = get_price_including_tax(soupe)
+    #book_data['Price_excluding_tax'] = get_price_excluding_tax(soupe)
+    #book_data['Tax '] = get_tax(soupe)
+    #book_data['Number_available'] = get_number_available(soupe)
+    #book_data['Review_rating'] = get_review_rating(soupe)
+    #book_data['Image_url'] = get_image_url(soupe)
     
     return book_data
-
-
-
-def recuperer_les_informations_pour_un_livre(url_d_un_livre):
-    """ fonction qui stockera les informations d'un livre dans un dictionnaire
-    besoin de l'url d'un livre """
-    
-    dictionnaire_des_information_du_livre = {"titre" : "nom du livre", 
-                                              "upc" : "09747478",
-                                        "categorie" : "action"}
-    print('extraction des données du livre_dans_un_dictionnaire')
-    return dictionnaire_des_information_du_livre
-
    
 
 def verifie_si_plusieurs_page(url_actuelle):
@@ -131,24 +119,20 @@ def get_all_page(url_une_categorie):
     liste_de_toute_les_pages = []
     liste_de_toute_les_pages.append(url_une_categorie)
     check_href = verifie_si_plusieurs_page(url_une_categorie)
-    #print(check_href)
     if check_href != None:
         url_de_base = url_une_categorie.rsplit('/',1)
-        #print(url_de_base)
         page_url = url_de_base[0] + str("/" + check_href)
-        #print('next page:' + page_url)
         autre_page = get_all_page(page_url)
-        #liste_de_toute_les_pages.append(autre_page)
         for test in autre_page:
             liste_de_toute_les_pages.append(test)
             
     return liste_de_toute_les_pages
 
 
-def url_categorys(url):# def url_page():
+def urls_books_categorys(url_page):
     """ get the books urls in one category"""
     urls_books_list = []
-    page_book = requests.get(url)
+    page_book = requests.get(url_page)
     soupe = BeautifulSoup(page_book.content, 'html.parser')
     books = soupe.select('.product_pod')
     for book in books:
@@ -160,41 +144,28 @@ def url_categorys(url):# def url_page():
     return urls_books_list
 
 
-def main():
+def recuperer_tout_les_livres_pour_une_categories():
     
-    liste_urls_page = []
-    liste_des_livres = []
-    #url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/travel_2/index.html'
+    
+    liste_urls_des_pages = []
+    liste_informations_des_livres = []
+    url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/travel_2/index.html'
     #url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/mystery_3/index.html'
-    url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
+    #url_une_categorie = 'https://books.toscrape.com/catalogue/category/books/sequential-art_5/index.html'
     page_des_categories = get_all_page(url_une_categorie)
     for url in page_des_categories:
-        urls_books = url_categorys(url)
+        urls_books = urls_books_categorys(url)
         for urls in urls_books:
-            liste_des_livres.append(urls)
-    
-    return liste_des_livres
+            liste_urls_des_pages.append(urls)
 
+    for infos_livres in liste_urls_des_pages:
+        infos_data = get_data_in_dictionnarie(infos_livres)
+        liste_informations_des_livres .append(infos_data)
 
+    return liste_informations_des_livres
 
+print(recuperer_tout_les_livres_pour_une_categories())
 
-def recuperer_tout_les_livres_pour_une_categories(liste_des_urls_de_tous_les_livres_de_la_categorie):
-    """ fonction qui recupera une liste de dictionnaires avec toutes les inforamtions de chaques livres
-    et fournie l'url du livre à la fonction recuperer_les_informations_pour_un_livre """
-    
-    liste_de_dictionnaires_des_inforamtions_de_tout_les_livres_dune_page = [{"titre" : "nom du livre", 
-                                              "upc" : "09747478",
-                                        "categorie" : "action"}, {"titre" : "nom du livre", 
-                                              "upc" : "09747478",
-                                        "categorie" : "action"}]
-    #envoie les urls des livres d'une categorie les uns apres les autres
-    for url_d_un_livre in liste_des_urls_de_tous_les_livres_de_la_categorie:
-        toutes_les_infos_des_livres_d_une_page = recuperer_les_informations_pour_un_livre(url_d_un_livre)
-        # boucle qui remplie la liste avec les dictionnaire de data de chaque livres de la categorie
-        for informations_livre in toutes_les_infos_des_livres_d_une_page:
-            liste_de_dictionnaires_des_inforamtions_de_tout_les_livres_dune_page.append(informations_livre)
-    print('extration des dictionnaires de tout les livres de la categories')
-    return liste_de_dictionnaires_des_inforamtions_de_tout_les_livres_dune_page
 
 
 def recuperer_toutes_les_urls_des_livres_de_la_categories(urls_des_pages):
