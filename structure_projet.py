@@ -1,5 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
+import csv342 as csv
+#import script_writedata_in_csv as swc
 
 def get_product_page_url(url_du_livre):
     """ recuper l'url de la page du livre """
@@ -85,17 +87,17 @@ def get_data_in_dictionnarie(url_livre):
     
     book_data = {}
     
-    #book_data['Book_Url'] = get_product_page_url(url_du_livre)
-    #book_data['Category'] = get_category(soupe)
+    book_data['Book_Url'] = get_product_page_url(url_du_livre)
+    book_data['Category'] = get_category(soupe)
     book_data['Titles'] = get_title(soupe)
-    #book_data['Description'] = get_product_description(soupe)
-    #book_data['UPC'] = get_universal_product_code(soupe)
-    #book_data['Price_including_tax'] = get_price_including_tax(soupe)
-    #book_data['Price_excluding_tax'] = get_price_excluding_tax(soupe)
-    #book_data['Tax '] = get_tax(soupe)
-    #book_data['Number_available'] = get_number_available(soupe)
-    #book_data['Review_rating'] = get_review_rating(soupe)
-    #book_data['Image_url'] = get_image_url(soupe)
+    book_data['Description'] = get_product_description(soupe)
+    book_data['UPC'] = get_universal_product_code(soupe)
+    book_data['Price_including_tax'] = get_price_including_tax(soupe)
+    book_data['Price_excluding_tax'] = get_price_excluding_tax(soupe)
+    book_data['Tax '] = get_tax(soupe)
+    book_data['Number_available'] = get_number_available(soupe)
+    book_data['Review_rating'] = get_review_rating(soupe)
+    book_data['Image_url'] = get_image_url(soupe)
     
     return book_data
    
@@ -176,6 +178,20 @@ def url_categorys(soupe):
     return urls_cats_list[1:51]
 
 
+def write_books_data(all_books_list):
+    """test list of dict in csv"""
+
+    # books_list = book_list[0].keys()
+
+    with open('bookinfosdatas.csv', 'w', encoding='utf-8_SIG',
+              newline='') as csvfile:
+        books = csv.DictWriter(csvfile, dialect='excel',
+                               fieldnames= all_books_list[0].keys(),
+                               delimiter=';')
+        books.writeheader()
+        books.writerows(all_books_list)
+
+
 def main():
     """general function of the script"""
 
@@ -189,10 +205,10 @@ def main():
     all_books_list = []
     for urls in categories_urls:
         all_data = recuperer_tout_les_livres_pour_une_categories(urls)
-        all_books_list.append(all_data)
-        #for books in all_data:
-            #all_books_list.append(books)
-    #swc.write_books_data(all_books_list)
+        #all_books_list.append(all_data)
+        for books in all_data:
+            all_books_list.append(books)
+    write_books_data(all_books_list)
     
     return all_books_list
 
