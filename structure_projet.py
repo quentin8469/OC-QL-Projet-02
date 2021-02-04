@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv342 as csv
-#import script_writedata_in_csv as swc
+
 
 def get_product_page_url(url_du_livre):
     """ recuper l'url de la page du livre """
@@ -78,13 +78,27 @@ def get_image_url(soupe):
                                    'http://books.toscrape.com/')
     return url_image
 
+
+def telecharge_image(soupe):
+    """ doc """
+    titre_image = soupe.find('h1').text
+    
+    image_book = soupe.find('img').get('src')
+    url_image = image_book.replace('../../',
+                                   'http://books.toscrape.com/')
+    lien_image = requests.get(url_image)
+    f = open(titre_image +'.jpg','wb')
+    f.write(lien_image.content)
+    f.close()
+
+ 
 def get_data_in_dictionnarie(url_livre):
     """ doc """
     
     url_du_livre = url_livre
     html = requests.get(url_du_livre)
     soupe = BeautifulSoup(html.content, 'html.parser')
-    
+    telecharge_image(soupe)
     book_data = {}
     
     book_data['Book_Url'] = get_product_page_url(url_du_livre)
