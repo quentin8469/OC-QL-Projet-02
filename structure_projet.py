@@ -81,13 +81,12 @@ def get_image_url(soupe):
 
 def telecharge_image(soupe):
     """ doc """
-    titre_image = soupe.find('h1').text
-    
-    image_book = soupe.find('img').get('src')
-    url_image = image_book.replace('../../',
-                                   'http://books.toscrape.com/')
+    titre_image = get_title(soupe)
+    url_image = get_image_url(soupe)
+    cat_image = get_book_category(soupe)
     lien_image = requests.get(url_image)
-    f = open(titre_image +'.jpg','wb')
+    
+    f = open(cat_image + ' ' + titre_image + '.jpg','wb')
     f.write(lien_image.content)
     f.close()
 
