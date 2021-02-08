@@ -17,7 +17,7 @@ Chacune des informations des livres pour chaque catégories seront enregistrer d
 
 Procédure d’exécution du script :
 
-1. Installation de GIT
+1.Installation de GIT
 Si GIT n'est pas installé sur votre machine, 
 téléchargé et installé le : https://git-scm.com/downloads
 
@@ -27,7 +27,7 @@ tapez : git init
 
 tapez: git clone https://github.com/quentin8469/OC-QL-Projet-02.git
 
-3. Création et activation de l'environnement virtuel
+3.Création et activation de l'environnement virtuel
 Dans la console de votre choix tapez : 
 python -m venv env 
 
@@ -41,3 +41,8 @@ Pour installer les librairies depuis le fichier 'requirements.txt'
 Via la console tapez :
 pip install -r requirements.txt
 
+Pour exécuter le programme, il vous faudra dans taper la commande qui suit dans votre terminal :
+
+python « nomduprojet.py »
+
+Le script va créer un dossier dans lequel vous retrouverez les .csv de chaque catégories ainsi que toutes les images des livres.
