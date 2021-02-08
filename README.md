@@ -18,8 +18,25 @@ Chacune des informations des livres pour chaque catégories seront enregistrer d
 Procédure d’exécution du script :
 
 1. Installation de GIT
-Si Git n'est pas installé sur votre machine, telechargé et installé : https://git-scm.com/downloads
+Si GIT n'est pas installé sur votre machine, 
+téléchargé et installé le : https://git-scm.com/downloads
 
 2.Clonage du répertoire
-3. Activation de l'environnement virtuel
-4.installation des librairies
+Crée un dossier et initialisé votre dépôt local
+tapez : git init 
+
+tapez: git clone https://github.com/quentin8469/OC-QL-Projet-02.git
+
+3. Création et activation de l'environnement virtuel
+Dans la console de votre choix tapez : 
+python -m venv env 
+
+Pour l'activer :
+Sous Windows : venv/scripts/activate
+Sous Linux : env/bin/activate
+
+4.Installation des librairies
+
+Pour installer les librairies depuis le fichier 'requirements.txt'
+Via la console tapez :
+pip install -r requirements.txt
