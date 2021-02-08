@@ -96,7 +96,7 @@ def get_data_in_dictionnarie(url_books):
     
     html = requests.get(url_books)
     soupe = BeautifulSoup(html.content, 'html.parser')
-    #download_picture(soupe)
+    download_picture(soupe)
     book_data = {}
     
     book_data['Book_Url'] = get_product_page_url(url_books)
