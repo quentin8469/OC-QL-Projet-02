@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 import csv342 as csv
-
+import os
 
 def get_product_page_url(url_du_livre):
     """ recuper l'url de la page du livre """
@@ -215,17 +215,23 @@ def main():
     categories_urls = url_categorys(soupe)
     
     
-    #all_books_list = []
+    all_books_list = []
     for urls in categories_urls:
         all_data = get_all_books_for_one_category(urls)
-    '''
+   
         for books in all_data:
             all_books_list.append(books)
-    #write_books_data(all_books_list)
-    '''
+    
     return 
 
 
 if __name__ == '__main__':
-    main()
+    
+    directory_name = 'book_scraping'
+    try:
+        os.mkdir(directory_name)
+    except:
+        print('dossier deja existant')
 
+    os.chdir(directory_name)
+    main()
