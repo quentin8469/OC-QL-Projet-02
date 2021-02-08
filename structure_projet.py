@@ -81,26 +81,25 @@ def get_image_url(soupe):
 
 def download_picture(soupe):
     """ doc """
-    titre_image = get_title(soupe).replace(':', '')
-    url_image = get_image_url(soupe)
+    picture_title = get_universal_product_code(soupe)
     cat_image = get_category(soupe)
+
+    url_image = get_image_url(soupe)
     lien_image = requests.get(url_image)
     
-    f = open(cat_image + ' ' + titre_image + '.jpg','wb')
-    f.write(lien_image.content)
-    f.close()
+    with open(f'{cat_image}_{picture_title}.jpg','wb') as dl_image:
+        dl_image.write(lien_image.content)
 
  
-def get_data_in_dictionnarie(url_livre):
+def get_data_in_dictionnarie(url_books):
     """ doc """
     
-    url_du_livre = url_livre
-    html = requests.get(url_du_livre)
+    html = requests.get(url_books)
     soupe = BeautifulSoup(html.content, 'html.parser')
-    download_picture(soupe)
+    #download_picture(soupe)
     book_data = {}
     
-    book_data['Book_Url'] = get_product_page_url(url_du_livre)
+    book_data['Book_Url'] = get_product_page_url(url_books)
     book_data['Category'] = get_category(soupe)
     book_data['Titles'] = get_title(soupe)
     book_data['Description'] = get_product_description(soupe)
@@ -128,20 +127,20 @@ def check_number_pages(url_actuelle):
     return None
 
 
-def get_all_page(url_une_categorie):
+def get_all_page(url_one_categorie):
     """ doc """
 
-    liste_de_toute_les_pages = []
-    liste_de_toute_les_pages.append(url_une_categorie)
-    check_href = check_number_pages(url_une_categorie)
+    liste_all_pages = []
+    liste_all_pages.append(url_one_categorie)
+    check_href = check_number_pages(url_one_categorie)
     if check_href != None:
-        url_de_base = url_une_categorie.rsplit('/',1)
+        url_de_base = url_one_categorie.rsplit('/',1)
         page_url = url_de_base[0] + str("/" + check_href)
-        autre_page = get_all_page(page_url)
-        for test in autre_page:
-            liste_de_toute_les_pages.append(test)
+        other_page = get_all_page(page_url)
+        for page in other_page:
+            liste_all_pages.append(page)
             
-    return liste_de_toute_les_pages
+    return liste_all_pages
 
 
 def urls_books_categorys(url_page):
@@ -162,20 +161,20 @@ def urls_books_categorys(url_page):
 def get_all_books_for_one_category(urls):
     
     
-    liste_urls_des_pages = []
-    liste_informations_des_livres = []
-    url_une_categorie = urls
-    page_des_categories = get_all_page(url_une_categorie)
-    for url in page_des_categories:
-        urls_books = urls_books_categorys(url)
+    urls_liste_pages = []
+    infos_books_list = []
+    url_one_categorie = urls
+    urls_categories_pages = get_all_page(url_one_categorie)
+    for url_page in urls_categories_pages:
+        urls_books = urls_books_categorys(url_page)
         for urls in urls_books:
-            liste_urls_des_pages.append(urls)
+            urls_liste_pages.append(urls)
 
-    for infos_livres in liste_urls_des_pages:
-        infos_data = get_data_in_dictionnarie(infos_livres)
-        liste_informations_des_livres .append(infos_data)
-
-    return liste_informations_des_livres
+    for url_books in urls_liste_pages:
+        infos_data = get_data_in_dictionnarie(url_books)
+        infos_books_list.append(infos_data)
+    write_books_data(infos_books_list)
+    return infos_books_list
 
 
 
@@ -186,23 +185,24 @@ def url_categorys(soupe):
     urls_links = soupe.find('ul', {'class': 'nav-list'})
     urls_link = urls_links.findAll('a')
     for link in urls_link:
-        urls_cats_list.append('http://books.toscrape.com/'
-                              + link.get('href'))
+        href = f"http://books.toscrape.com/{link.get('href')}"
+        urls_cats_list.append(href)
     return urls_cats_list[1:51]
 
 
-def write_books_data(all_books_list, soupe):
+def write_books_data(infos_books_list):
     """test list of dict in csv"""
 
-    file_name = get_category(soupe)
+    
+    csv_name = infos_books_list[0]['Category']
 
-    with open('Categorie' + ' ' + file_name + '.csv', 'w', encoding='utf-8_SIG',
+    with open(f'{csv_name}.csv', 'w', encoding='utf-8_SIG',
               newline='') as csvfile:
         books = csv.DictWriter(csvfile, dialect='excel',
-                               fieldnames= all_books_list[0].keys(),
+                               fieldnames= infos_books_list[0].keys(),
                                delimiter=';')
         books.writeheader()
-        books.writerows(all_books_list)
+        books.writerows(infos_books_list)
 
 
 def main():
@@ -215,14 +215,17 @@ def main():
     categories_urls = url_categorys(soupe)
     
     
-    all_books_list = []
+    #all_books_list = []
     for urls in categories_urls:
         all_data = get_all_books_for_one_category(urls)
-        #all_books_list.append(all_data)
+    '''
         for books in all_data:
             all_books_list.append(books)
-    write_books_data(all_books_list, soupe)
-    
-    return all_books_list
+    #write_books_data(all_books_list)
+    '''
+    return 
 
-print(main())
+
+if __name__ == '__main__':
+    main()
+
