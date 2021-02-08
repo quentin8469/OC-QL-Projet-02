@@ -40,3 +40,4 @@ Sous Linux : env/bin/activate
 Pour installer les librairies depuis le fichier 'requirements.txt'
 Via la console tapez :
 pip install -r requirements.txt
+
