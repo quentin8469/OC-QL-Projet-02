@@ -78,14 +78,8 @@ def get_image_url(soupe):
                                    'http://books.toscrape.com/')
     return url_image
 
-
-def download_picture(soupe):
-    """ doc """
-    cat_image = get_category(soupe)
-    picture_title = get_universal_product_code(soupe)
-    
-    url_image = get_image_url(soupe)
-    lien_image = requests.get(url_image)
+def picture_directory(cat_image):
+    """ create pictures directory for one category """
     try:
         os.mkdir(cat_image)
     except:
@@ -94,15 +88,24 @@ def download_picture(soupe):
         os.chdir(cat_image)
     except:
         pass
+    
 
+
+def download_picture(soupe):
+    """ download pictures in directory """
+
+    cat_image = get_category(soupe)
+    picture_directory(cat_image)
+
+    picture_title = get_universal_product_code(soupe)
+    url_image = get_image_url(soupe)
+    lien_image = requests.get(url_image)
+    
     with open(f'{cat_image}_{picture_title}.jpg','wb') as dl_image:
         dl_image.write(lien_image.content)
     
     local = os.getcwd()
-
     os.chdir('../')
-    
-
     return local
 
  
