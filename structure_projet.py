@@ -128,7 +128,7 @@ def get_data_in_dictionnarie(url_books):
     book_data['Number_available'] = get_number_available(soupe)
     book_data['Review_rating'] = get_review_rating(soupe)
     book_data['Image_url'] = get_image_url(soupe)
-    book_data['local_Image_url'] = download_picture(soupe)
+    book_data['local_Image_path'] = download_picture(soupe)
     
     return book_data
    
