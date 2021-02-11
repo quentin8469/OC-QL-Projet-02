@@ -2,9 +2,10 @@ import requests
 from bs4 import BeautifulSoup
 import csv342 as csv
 import os
+import time
 
 def get_product_page_url(url_du_livre):
-    """ recuper l'url de la page du livre """
+    """ get url of a book """
     
     book_url = url_du_livre
     
@@ -12,14 +13,14 @@ def get_product_page_url(url_du_livre):
 
 
 def get_universal_product_code(soupe):
-    """ doc """
+    """ get UPC of a book """
     upc = soupe.find_all('td')[0].text
     
     return upc
 
 
 def get_title(soupe):
-    """ doc """
+    """ get the title of a book """
     
     title = soupe.find('h1').text
     
@@ -27,51 +28,51 @@ def get_title(soupe):
 
 
 def get_price_including_tax(soupe):
-    """ doc """
+    """ get the price with the tax of a book """
     
     price_including_tax = soupe.find_all('td')[3].text
     return price_including_tax
 
 
 def get_price_excluding_tax(soupe):
-    """ doc """
+    """ get the price of a book excludinf tax """
     price_excluding_tax = soupe.find_all('td')[2].text
     return price_excluding_tax
 
 
 def get_tax(soupe):
-    """ doc """
+    """ get the price of the tax of a book """
     tax = soupe.find_all('td')[4].text
     return tax
 
 
 def get_number_available(soupe):
-    """ doc """
+    """ get the number of a book in stock """
     number_available = soupe.find_all('td')[5].text
     return number_available
 
 
 def get_product_description(soupe):
-    """ doc """
+    """ give the description of the story for a book """
     product_description = soupe.find_all('p')[3].text
     return product_description
 
 
 def get_category(soupe):
-    """ doc """
+    """ give the category of a book """
     category = soupe.find_all('li')[2].text.strip()
     return category
 
 
 def get_review_rating(soupe):
-    """ doc """
+    """ give the number of star for a book """
     review_rating = soupe.find_all('td')[6].text
     
     return review_rating
 
 
 def get_image_url(soupe):
-    """ doc """
+    """ give the picture url of a book """
     
     image_book = soupe.find('img').get('src')
     url_image = image_book.replace('../../',
@@ -89,7 +90,6 @@ def picture_directory(cat_image):
     except:
         pass
     
-
 
 def download_picture(soupe):
     """ download pictures in directory """
@@ -110,7 +110,7 @@ def download_picture(soupe):
 
  
 def get_data_in_dictionnarie(url_books):
-    """ doc """
+    """ get all data of one book in a dictionnarie """
     
     html = requests.get(url_books)
     soupe = BeautifulSoup(html.content, 'html.parser')
@@ -134,7 +134,7 @@ def get_data_in_dictionnarie(url_books):
    
 
 def check_number_pages(url_actuelle):
-    """ doc """
+    """ check if we have a have. if href we have other page """
     
     html = requests.get(url_actuelle)
     soupe = BeautifulSoup(html.content, 'html.parser')
@@ -147,7 +147,7 @@ def check_number_pages(url_actuelle):
 
 
 def get_all_page(url_one_categorie):
-    """ doc """
+    """ make a list of all page in one categories """
 
     liste_all_pages = []
     liste_all_pages.append(url_one_categorie)
@@ -178,7 +178,8 @@ def urls_books_categorys(url_page):
 
 
 def get_all_books_for_one_category(urls):
-    
+    """ make a list of all url book for one categorie, get a list of dictionnarie
+    of all books in one category"""
     
     urls_liste_pages = []
     infos_books_list = []
@@ -210,8 +211,7 @@ def url_categorys(soupe):
 
 
 def write_books_data(infos_books_list):
-    """test list of dict in csv"""
-
+    """ Save infos books for one category in en csv file"""
     
     csv_name = infos_books_list[0]['Category']
 
@@ -246,11 +246,22 @@ def main():
 
 if __name__ == '__main__':
     
-    directory_name = 'book_scraping'
+    directory_name = 'Book_Scraping'
+    print('Le script est lancé, le nom de dossier sera par défaut Book_Scraping')
+    time.sleep(5)
+
     try:
         os.mkdir(directory_name)
+        print(f'Votre dossier : {directory_name} à été crée')
     except:
-        print('dossier deja existant')
+        print(f'Votre dossier : {directory_name} est déjà existant,le script va remplacer les données existantes du dossier')
+        
+    finally:
+        os.chdir(directory_name)
 
-    os.chdir(directory_name)
+    time.sleep(5)
+    print(f'Les données sont en cours de sauvgarde dans votre dossier {directory_name}')
+    time.sleep(2)
+    print("Merci de patienter pendant l'execution du script")
     main()
+    print(f'Le script viens de finir, vous pouvez retrouver vos données dans {directory_name}')
