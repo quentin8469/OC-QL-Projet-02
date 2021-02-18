@@ -43,6 +43,6 @@ pip install -r requirements.txt
 
 Pour exécuter le programme, il vous faudra dans taper la commande qui suit dans votre terminal :
 
-python « nomduprojet.py »
+python « script_all_books.py »
 
 Le script va créer un dossier dans lequel vous retrouverez les .csv de chaque catégories ainsi que toutes les images des livres.
